@@ -1,0 +1,6 @@
+.body_mes p.me{
+    text-align: right;
+    border-radius: 5px;
+    background: #ccc;
+    padding-right: 5px;
+}

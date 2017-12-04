@@ -1,0 +1,11 @@
+subiz (vankhaiht@gmail.com/abc12345)
+f20(html, type11, oname11, add) =>mes_append(html, type11, oname11, add)
+f20_2_img(strhtml)=>replace_html_img(strhtml)
+f20_1(content,pclass,ona)=>html_mes_opt(content,pclass,ona)
+f15(html)=>html_replace_elements(html);
+f18()=>add_div_for_mes()
+f18_out()=>get_tag_and_mes()
+v3=>K_ico_admin
+=================
+---tblmessages---
+use_type(0=client;1=admin)
