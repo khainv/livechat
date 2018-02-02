@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    .active{
+        border: solid 1px red;
+    }
+</style>
+
+<div id="example2">
+    <p v-bind:class='{active:isActive}'>Message: "{{ message }}"</p>
+</div>
+
+<div id="example">
+    <div v-bind:class="[{ 'active': isActive }, errorClass]">Array</div>
+</div>
+<div id="binstyle">
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Binding Inline Styles</div>
+</div>
+<script src="../vue.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

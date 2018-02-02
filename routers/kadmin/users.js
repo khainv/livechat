@@ -13,31 +13,38 @@ app.use(passport.session())
 require("../../models/k_messages");
 var model_messages=mongoose.model('k_messages');
 app.use(bodyParser.json());
+var define=require('../../define');
+define=new define;
 var funs=require('../../funs');
 funs=new funs;
 router.get('/login', function (req, res) {
+    if(req.session.adm_name){
+        return res.redirect('/'+define.backend+'/users/index');
+    }
     res.render('./kadmin/users/login.ejs')
 });
-router.post('/login', function (req, res) {
-    console.log('khainv');
-    passport.authenticate('local',{failureRedirect:'/login',successRedirect:'/loginok'})
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+router.post('/login',urlencodedParser, function (req, res) {
+    if(req.body){
+        var user=req.body.username;
+        var pass=req.body.passsword;
+        var cid=req.body.cid;
+        if(user=='admin' && pass=='123' && cid=='cid_123'){
+            req.session.adm_name=user;
+            req.session.adm_pass=pass;
+            req.session.adm_cid=cid;
+            return res.redirect('/'+define.backend+'/users/index');
+        }else{
+            return res.redirect('/'+define.backend+'/users/login');
+        }
+    }
+    return res.redirect('/'+define.backend+'/users/login');
 });
-/*app.route('/login')
-    .get((req,res)=>res.render('./kadmin/users/login.ejs'))
-.post(passport.authenticate('local',{failureRedirect:'/login',successRedirect:'/loginok'}))*/
-app.get('/loginok',(req,res)=>res.send('ban da dang nhap thanh cong'));
-passport.use(new LocalStrategy(
-    (username,passsword,done)=>{
-    if('abc'==username){
-    console.log('test true');
-    return done(null,userRecord)
-}else{
-    console.log('test lalse');
-    return done(null, false)
-}
-}))
-passport.serializeUser((user,done)=>{
-    done(null,user)
+router.get('/logout',function(req,res){
+    req.session.destroy(function(err) {
+        // cannot access session here
+    })
+    return res.redirect('/'+define.backend+'/users/login');
 })
 router.get('/index', function (req, res) {
     res.render('./kadmin/users/index.ejs')

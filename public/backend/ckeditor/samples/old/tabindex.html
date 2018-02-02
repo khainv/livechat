@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>TAB Key-Based Navigation &mdash; CKEditor Sample</title>
+	<script src="../../ckeditor.js"></script>
+	<link href="sample.css" rel="stylesheet">
+	<style>
+
+		.cke_focused,
+		.cke_editable.cke_focused
+		{
+			outline: 3px dotted blue !important;
+			*border: 3px dotted blue !important;	/* For IE7 */
+		}
+
+	</style>
+	<script>
+		CKEDITOR.on( 'instanceReady', function( evt ) {
+			var editor = evt.editor;
+			editor.setData( 'This editor has it\'s tabIndex set to <strong>' + editor.tabIndex + '</strong>' );
+			// Apply focus class name.
+			editor.on( 'focus', function() {
+				editor.container.addClass( 'cke_focused' );
+			});
+			editor.on( 'blur', function() {
+				editor.container.removeClass( 'cke_focused' );
+			});
+			// Put startup focus on the first editor in tab order.
+			if ( editor.tabIndex == 1 )
+				editor.focus();
+		});
+	</script>
+</head>
+<body>
+	<p>
+		<textarea class="ckeditor" cols="80" id="editor4" rows="10" tabindex="1"></textarea>
+	</p>
+	<div class="ckeditor" contenteditable="true" id="editor1" tabindex="4"></div>
+	<p>
+		<textarea class="ckeditor" cols="80" id="editor2" rows="10" tabindex="2"></textarea>
+	</p>
+	<p>
+		<textarea class="ckeditor" cols="80" id="editor3" rows="10" tabindex="3"></textarea>
+	</p>
+</body>
+</html>

@@ -1,8 +1,20 @@
 module.exports = function() {
+    this.k_port='4000';
+    this.k_domain='http://localhost:'+this.k_port;
     this.db_host='127.0.0.1';
-    this.db_uri='mongodb://127.0.0.1:27017/kchat';
-    this.k_domain='http://localhost:8000';
+    this.db_uri='mongodb://'+this.db_host+':27017/kchat';
     this.backend='kadmin';
     this.FixAdminRoom='admin';
     this.FixCliRoom='';
+    this.k_type_admin='2';
+    this.k_type_user='1';
+    this.k_device_mobile=1;
+    this.k_device_pc=2;
+    this.k_chatbox_show=1;
+    this.k_chatbox_hidde=0;
+    this.k_room_type_default='0';
+    this.k_room_type='1';
+    this.k_mes_type_txt='0';
+    this.k_mes_type_img='1';
+    this.k_mes_type_file='2';
 }

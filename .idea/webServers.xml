@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2e37e363-357d-4d1f-afbc-0847f1c5ae02" name="shopweb365.com" url="http://125.253.119.201">
+        <fileTransfer host="125.253.119.201" port="21" rootFolder="/home/khainv">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" showHiddenFiles="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="63c5f2ab-13b0-43d1-aa64-8c77dbb7aa58" name="shopweb365" url="http://112.78.6.172">
+        <fileTransfer host="112.78.6.172" port="21" rootFolder="/domains/shopweb365.com/public_html">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" showHiddenFiles="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

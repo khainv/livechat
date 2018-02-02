@@ -5,16 +5,12 @@
 <!-- /Page Container -->
 <!-- Main Container -->
 </div>
-
 <!--Basic Scripts-->
 <script src="/backend/assets/js/jquery.min.js"></script>
 <script src="/backend/assets/js/bootstrap.min.js"></script>
 <script src="/backend/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
-
 <!--Beyond Scripts-->
 <script src="/backend/assets/js/beyond.js"></script>
-
-
 <!--Page Related Scripts-->
 <!--Sparkline Charts Needed Scripts-->
 <script src="/backend/assets/js/charts/sparkline/jquery.sparkline.js"></script>
@@ -30,7 +26,6 @@
 <script src="/backend/assets/js/charts/flot/jquery.flot.pie.js"></script>
 <script src="/backend/assets/js/charts/flot/jquery.flot.tooltip.js"></script>
 <script src="/backend/assets/js/charts/flot/jquery.flot.orderBars.js"></script>
-
 <script>
 // If you want to draw your charts with Theme colors you must run initiating charts after that current skin is loaded
 $(window).bind("load", function () {
@@ -42,6 +37,9 @@ $(window).bind("load", function () {
     themefifthcolor = getThemeColorFromCss('themefifthcolor');
 });
 </script>
+<% if(typeof session.adm_name !== 'undefined'){%>
+
+<%}%>
 <script src="/backend/js/socbackend.js"></script>
 </body>
 <!--  /Body -->

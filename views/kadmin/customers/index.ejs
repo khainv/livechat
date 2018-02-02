@@ -1,0 +1,56 @@
+<%- include('../layout/header'); %>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">Home</a>
+            </li>
+            <li>
+                <a href="#">Customers</a>
+            </li>
+            <li class="active">Simple and Responsive</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="horizontal-space"></div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="well with-header with-footer">
+                    <div class="header bg-palegreen">Customers</div>
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blueberry">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Domains</th>
+                            <th>Cid</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if(datas && datas!=null){%>
+                        <% var i=0;%>
+                        <% datas.forEach(function(dat) { %>
+                        <% i++ %>
+                        <tr>
+                            <td><%- i %></td>
+                            <td><%= dat.cus_name;%></td>
+                            <td><%- dat.cus_domains; %></td>
+                            <td><%- dat.cus_cid; %></td>
+                            <td><a href="/kadmins/admins/view?id=<%- dat._id %>"> Xem </a><a href="/kadmins/admins/edit?id=<%- dat._id %>"> Sửa </a> <a href="/kadmins/admins/del?id=<%- dat._id %>"> Xóa </a></td>
+                        </tr>
+                        <%})%>
+                        <%}%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<%- include('../layout/footer'); %>

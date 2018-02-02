@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ks xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Phòng khám đa khoa Quốc Đô - Hệ thống tư vấn trực tuyến</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script language="javascript">
+        c49=unescape("href%3d%22http%3a%2f%2fwww.zoosnet.net%2f%3ffromsiteid%3d'%2bLR_websiteid%2b'%22 target%3d%22_blank%22 alt%3d%22Go To LiveReception'Website http%3a%2f%2fwww.zoosnet.net%2f%22");
+        c38=1;
+        var LR_xmlHttp;var lastclsid=null;var kindget=0;
+        function GetXmlHttpObject(handler) {
+            var objXmlHttp = null;
+            objXmlHttp = GetMSXmlHttp();
+            if (objXmlHttp != null) {
+                objXmlHttp.onreadystatechange = handler;
+            }
+            else {
+                objXmlHttp = new XMLHttpRequest();
+                if (objXmlHttp != null) {
+                    try {
+                        objXmlHttp.onload = handler;
+                        objXmlHttp.onerror = handler;
+                        objXmlHttp.onreadystatechange = handler;
+                    }
+                    catch(e) {
+                    }
+                }
+            }
+            return objXmlHttp;
+        }
+        function GetMSXmlHttp() {
+            var xmlHttp = null;
+            if(lastclsid==null) {
+                var clsids = ['Msxml2.XMLHTTP.6.0','Msxml2.XMLHTTP.5.0','Msxml2.XMLHTTP.4.0','Msxml2.XMLHTTP.3.0','Msxml2.XMLHTTP.2.6','Microsoft.XMLHTTP.1.0','Microsoft.XMLHTTP.1','Microsoft.XMLHTTP','Msxml2.XMLHTTP'];
+                for(var i=0; i<clsids.length && xmlHttp == null; i++) {
+                    xmlHttp = CreateXmlHttp(clsids[i]);
+                }
+            }
+            else {
+                xmlHttp = CreateXmlHttp(lastclsid);
+            }
+            return xmlHttp;
+        }
+        function CreateXmlHttp(clsid) {
+            var xmlHttp = null;
+            try {
+                xmlHttp = new ActiveXObject(clsid);
+                lastclsid = clsid;
+                return xmlHttp;
+            }
+            catch(e) {return null}
+        }
+        var Ajax_timerID;var trypost=0;
+        function PostCall(url,poststr) {
+            if(LR_xmlHttp!=null) {
+                trypost++;if(trypost>20){getReady('err2');LR_xmlHttp=null;return;}Ajax_timerID=setTimeout("PostCall('"+url+"','"+poststr+"')",1000);
+                return;
+            }
+            trypost=0;try {
+            LR_xmlHttp = GetXmlHttpObject(CallbackMethod);
+            if(typeof(LR_xmlHttp.setrequestheader)!='undefined') {
+                LR_xmlHttp.open('POST', url, true);
+                LR_xmlHttp.setrequestheader('content-length',poststr.length);
+                LR_xmlHttp.setrequestheader('content-type','application/x-www-form-urlencoded');
+                LR_xmlHttp.send(poststr);
+            }
+            else if(typeof(LR_xmlHttp.setRequestHeader)!='undefined') {
+                LR_xmlHttp.open('POST', url, true);
+                LR_xmlHttp.setRequestHeader('content-type','application/x-www-form-urlencoded');
+                LR_xmlHttp.send(poststr);
+            }
+            else {
+                kindget=1;LR_xmlHttp.open('GET', url+(url.indexOf('?')==-1?'?':'&')+poststr, true);
+                LR_xmlHttp.send(null);
+            }
+        }
+        catch(e){getReady('err3');LR_xmlHttp=null;}
+        }
+        function CallbackMethod() {
+            if(LR_xmlHttp==null) {
+                return;
+            }
+            if(LR_xmlHttp.readyState == 0) {
+            }
+            else if(LR_xmlHttp.readyState == 1) {
+            }
+            else if(LR_xmlHttp.readyState == 2) {
+            }
+            else if(LR_xmlHttp.readyState == 3) {
+            }
+            else if(LR_xmlHttp.readyState == 4 || LR_xmlHttp.readyState == 'complete') {
+                if(LR_xmlHttp.status == 200) {
+                    var response = LR_xmlHttp.responseText;
+                    getReady(response);
+                }
+                else {
+                    getReady('err4');
+                }
+                LR_xmlHttp=null;
+            }
+            else if(LR_xmlHttp.status == 404) {
+                getReady('err5');LR_xmlHttp=null;
+            }
+            else {
+                getReady('err6');LR_xmlHttp=null;
+            }
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost:8000/kchat/js/Chat_en.js"></script>
+    <script type="text/javascript" src="http://localhost:8000/kchat/js/ChatBW3JS.js"></script>
+    <!--<script type="text/javascript" src="win3.js"></script>-->
+    <base target="_blank">
+    <link href="http://chat.bstuvan.com.vn/lr/lrchatBW.css" rel="stylesheet" type="text/css" /></head>
+<body onkeydown="return f3(event)" onload="" scroll="no">
+<script language="javascript">
+/*    document.write(bodyhtml);
+    f20(c3, 0);
+    init();
+    LastFunction();*/
+init();
+</script>
+<div style="position: absolute; top: 0px; display: block;background-color:#38761d;" id="header">
+    <div id="headerBox" class="toptitle">
+        <div class="img1" style="top:8px;left:10px;">
+            <img id="topimg" border="0" src="http://chat.bstuvan.com.vn/lr/newMobile/avatar2.png" style="height: 36px;width: 36px;	border-radius: 18px;display:block"></div>
+        <p id="prompttop" style="margin-left:50px;">&nbsp;Calling the operator,please wait...</p>
+    </div>
+    <div id="topclose" class="topclose" onclick="closeme(1);">Close</div>
+</div>
+<div id="centerMsg" style="position: relative; margin-right: 125px; margin-left: 170px; height: 100%;">
+    <div id="chatOutput" style="bottom: 165px;top: 54px;position: absolute;">
+        <div style="position: relative;" class="border1Content" id="chatContent">
+            <div id="msgArea">
+                <div id="welcom1">
+                    <div>
+                        <img style="MAX-WIDTH: 100%; MARGIN: auto" alt="livechat" src="http://phongkhamquocdo.vn/livechat/lc_banner.jpg">
+                    </div>
+                    <div>
+                        <p align="left">
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Times New Roman; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0000pt">
+                                <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">
+                                    <span style="FONT-SIZE: 14px; COLOR: #cc0000">
+                                        <strong>Phòng khám đa khoa Quốc Đô</strong>
+                                    </span>
+                                </span>
+                            </span>
+                        </p>
+                        <p align="left">
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Times New Roman; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0000pt">
+                                <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">
+                                    <span style="COLOR: #cc0000"></span>
+                                    <span style="FONT-SIZE: 14px; COLOR: #cc0000"><strong>Số 77 Khuất Duy Tiến - Thanh Xuân - Hà Nội</strong></span>
+                                </span>
+                            </span>
+                        </p>
+                        <p align="left">
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Times New Roman; COLOR: #cc0000; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0000pt">
+                                <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #cc0000"><span style="FONT-SIZE: 14px; COLOR: #cc0000">
+                                    <span style="COLOR: #cc0000"><strong>1800&nbsp;6925 - 016 97 97 2666</strong>
+                                    </span>
+                                </span>
+                                </span>
+                            </span>
+                        </p>
+                        <p style="FONT-SIZE: 9pt; FONT-FAMILY: Tahoma">Chào bạn, đây là trung tâm tư vấn trực tuyến và đặt mã số khám miễn phí <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">, bạn có vấn đề gì có thể tư vấn trực tiếp với bác sỹ hoặc gọi điện thoại tư vấn, chúc bạn sớm hồi phục!</span></p>
+                        <p class="MsoNormal" style="TEXT-ALIGN: left">
+                            <span style="FONT-SIZE: 12pt; FONT-FAMILY: 'Times New Roman'; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0000pt">
+                                <span style="FONT-SIZE: 16px; FONT-FAMILY: Arial; COLOR: #e53333"><strong>Nhắc nhở:</strong></span>
+                                <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial"> khám bệnh cần chọn cơ sở chính quy, tránh để bị lừa gạt, nếu gặp tình trạng tương tự, có thể gọi điện cho chúng tôi <span style="COLOR: #e53333">0978 79 2699</span>, chúng tôi sẽ giúp đỡ bạn!</span>
+                            </span>
+                        </p>
+                        <p class="MsoNormal" style="TEXT-ALIGN: left">
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">&nbsp;</span>
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5">
+                                <strong>[</strong>
+                            </span>
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0000pt">
+                                <strong>Cuộc hội thoại hoàn toàn được bảo mật, có thể yên tâm tư vấn!</strong>
+                            </span>
+                            <span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5"><strong>]</strong></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="kongge_msg"></div>
+        </div>
+    </div>
+    <div id="userOptiv">
+        <div class="border1Content">
+            <div style="background-color:#f1f1f1;"></div>
+            <div style="background-color:#f1f1f1;">
+                <div id="toolsbar">
+                    <div class="telephone" id="telephone" style="display:none;border-radius: 14px;height: 26px; right: 5px;top: 4px;background-color: #38761d;border: 1px solid #38761d;">
+                        <input type="text" id="tel" class="bd" value="Please enter your mobile phone number" defaultval="Please enter your mobile phone number" onfocus="inputfocus(this,1);showContent(5);" onblur="inputblur(this,1);hiddenContent();" style="border-radius: 14px 0 0 14px;height: 26px;line-height: 26px;font-size: 14px;">
+                        <input type="button" id="telbtn" class="btn" style="line-height: 22px;border-radius: 0 14px 14px 0;font-size: 14px;height: 26px;background: #38761d none repeat scroll 0 0;" value="免费回电" onclick="LY_check1($('tel'))" onmouseover="filter0(this);" onmouseout="filter1(this);">
+                    </div>
+                    <div unselectable="on" class="panelContain">
+                        <div unselectable="on" id="tbut0" class="toolbutton0" title="Change fonts and style">
+                            <div class="toolbutton" style="background-position: -600px -50px;" onmouseover="showC1(-600, this)" onmouseout="hiddenC1(-600, this);" onclick="showContent(0)" title="Change fonts and style"></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Face">
+                            <div class="toolbutton" style="background-position:0px -50px;" onmouseover="showC1(0, this)" onmouseout="hiddenC1(0, this);" onclick="showContent(1)" title="Face"></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Send Image">
+                            <div class="toolbutton" style="background-position:-100px -50px" onmouseover="showC1(-100, this)" onmouseout="hiddenC1(-100, this);" onclick="showContent(2)" title="Send Image"></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Send File">
+                            <div class="toolbutton" style="background-position:-250px -50px" onmouseover="showC1(-250, this)" onmouseout="hiddenC1(-250, this);" onclick="showContent(3)" title="Send File"></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Save chat">
+                            <div class="toolbutton" style="background-position:-150px -50px" onmouseover="showC1(-150, this)" onmouseout="hiddenC1(-150, this);" onclick="savechat()" title="Save chat"></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Leave a message">
+                            <div class="toolbutton" style="background-position:-500px -50px" onmouseover="showC1(-500, this)" onmouseout="hiddenC1(-500, this)" title="Leave a message"><a onmousedown="liuyan();" style="width: 26px; height: 24px;display:block;"></a></div>
+                        </div>
+                        <div unselectable="on" style="display:block" class="toolbutton0" title="Submit your comments for this chat">
+                            <div class="toolbutton" style="background-position:-50px -50px" onmouseover="showC1(-50, this)" onmouseout="hiddenC1(-50, this)" onclick="pingjia();" title="Submit your comments for this chat"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sendMsgDiv">
+                <div class="editor_border">
+                    <div id="lreditor">
+                        <iframe id="FreeTextBox1_editor" name="FreeTextBox1_editor" style="BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; " frameborder="0" hspace="0" height="91" width="100%" src="about:blank"></iframe>
+                    </div>
+                </div>
+                <div id="promptbar">
+                    <div style="overflow:hidden;height:22px;line-height:20px;width:100%;margin-top:13px;">
+                        <ul id="promptbottom">
+                            <div style="display: block; width:270px;" id="swtlogo">
+                                <div class="zi">
+                                    <a href="http://www.zoosnet.net/?fromsiteid=MMW77888888" target="_blank" alt="Go To LiveReception'Website http://www.zoosnet.net/">
+                                        <img src="http://chat.bstuvan.com.vn/lr/chatm2imgs/logo1.png" style="margin-right:4px;">Powered by zoosnet.net</a></div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div unselectable="on" id="SendBar">
+                    <div class="bd1">
+                        <div onmouseover="filter0(this);" onmouseout="filter1(this);" unselectable="on" class="bt" onclick="showSendSel()" id="selSendBtn" style="background : #38761d none repeat scroll 0 0;">^</div>
+                        <div onmouseover="filter0(this);" onmouseout="filter1(this);" onclick="return User_Send(event);" unselectable="on" class="bt" id="SendBtn" style="background : #38761d none repeat scroll 0 0;">Send</div>
+                    </div>
+                    <div onclick="showSendSel()" class="nicEdit-ocSendMsgDiv" id="ocSendMsgDiv" unselectable="on" style="right: 0px; z-index: 100; top: -48px; border-right: 1px solid rgb(218, 218, 218);">
+                        <div unselectable="on" class="oc_div_smt_in">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" onselectstart="return false">
+                                <tbody>
+                                <tr class="" onclick="send_c_click(this,0)" onmouseover="send_c_over(this)" onmouseout="send_c_out(this)">
+                                    <td width="19" style="background-color:#eeeeee;padding:0px 3px;" class="left"><div class="cur"></div></td><td>&nbsp;Enter</td>
+                                </tr>
+                                <tr class="" onclick="send_c_click(this,1)" onmouseover="send_c_over(this)" onmouseout="send_c_out(this)">
+                                    <td style="background-color:#eeeeee;padding:0px 3px;" class="left"><div></div></td><td>&nbsp;Ctrl+Enter</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="leftDiv" style="position: absolute; width: 170px;height: 100%; left: 0px; top: 54px; background-color: rgb(255, 255, 255); overflow: hidden;">
+        <a href="http://phongkhamquocdo.vn" target="_blank">
+        <img src="http://phongkhamquocdo.vn/livechat/lc_banner2.jpg" border="0" onload="if(this.width>170)this.width=170;"></a>
+</div>
+<div id="rightDiv" style="position: absolute; width: 125px; height: 100%; right: 0px; top:0px; background-color: rgb(255, 255, 255); overflow: hidden;display:block">
+    <div style="height: 100%;margin-top:54px" id="rightDiv1">
+        <a href="http://phongkhamquocdo.vn" target="_blank">
+            <img src="http://phongkhamquocdo.vn/livechat/lc_banner1.jpg" border="0" onload="if(this.width>125)this.width=125;" width="125">
+        </a>
+    </div>
+</div>
+</body>
+</body>
+</html>

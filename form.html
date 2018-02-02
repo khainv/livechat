@@ -4,11 +4,40 @@
 </head>
 <body>
 <script type="text/javascript">
-    var str = "For more information, see Chapter 3.4.5.1";
-    var re = /(chapter \d+(\.\d)*)/i;
-    var found = str.match(re);
-    document.write(found);
-    //Chapter 3.4.5.1,Chapter 3.4.5.1,.1
+    app.post('/upload', function(req, res) {
+    console.log(req.files);
+    var dest, fileName, fs, l, tmpPath;
+    fs = require('fs');
+    tmpPath = req.files.upload.path;
+    // for path linux
+    /*l = tmpPath.split(‘/’).length;
+    fileName = tmpPath.split(‘/’)[l – 1] + “_” + req.files.upload.name;*/
+    l = tmpPath.split('\\').length;
+    fileName = tmpPath.split('\\')[l – 1] + "_" + req.files.upload.name;
+    dest = __dirname + "/public/uploads/" + fileName;
+    fs.readFile(req.files.upload.path, function(err, data) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        fs.writeFile(dest, data, function(err) {
+            var html;
+            if (err) {
+                console.log(err);
+                return;
+            }
+            html = '';
+            html += "<script type='text/javascript'>";
+            html += " var funcNum = " + req.query.CKEditorFuncNum + ";";
+            html += " var url = \"/uploads/" + fileName + "\";";
+            html += " var message = \"Uploaded file successfully\";";
+            html += "";
+            html += " window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);";
+            html += '</script>';
+            res.send(html);
+        });
+    });
+});
 </script>
 </body>
 </html>

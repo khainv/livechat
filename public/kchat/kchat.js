@@ -1,8 +1,7 @@
-var K_sysDomain='http://localhost:8000';
+var K_sysDomain='http://localhost:4000';
 var K_sysurl = K_sysDomain+'/kchat';
 var K_sysimg=K_sysurl+'/imgs'
 var K_cid='';
-var K_sid='';
 var K_lng='en';
 var K_domain=K_getDomain();
 var K_channel='1';
@@ -12,11 +11,11 @@ var K_timeshowchatbox=10000;
 var K_Fshowchatbox='';
 var K_cookieexpires=10;
 var v2 = unescape("%235ba4ed");
-var v3 = unescape("http://localhost:8000/kchat/imgs/v/ico_admin.gif");
-var v4 = unescape("http://localhost:8000/kchat/imgs/v/ico_client.gif");
+var v3 = unescape(K_sysDomain+"/kchat/imgs/v/ico_admin.gif");
+var v4 = unescape(K_sysDomain+"/kchat/imgs/v/ico_client.gif");
 var c3 = unescape("%3cIMG style%3d%22MAX-WIDTH%3a 100%25%3b TEXT-ALIGN%3a center%22 src%3d%22http%3a%2f%2fphongkhamgiaiphong.com%2flinechat%2flinechat_banner_goc.jpg%22%3e %3cDIV style%3d%22COLOR%3a green%3b MARGIN-TOP%3a 5px%22%3e%3cFONT size%3d4 face%3d%22Times New Roman%22%3e%3c%2fFONT%3e%3c%2fDIV%3e%3cP%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Times New Roman%3b mso-spacerun%3a 'yes'%3b mso-fareast-font-family%3a %u5b8b%u4f53%3b mso-font-kerning%3a 1.0000pt%22%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%22%3e chao ban day la c%u1ee7a %3c%2fSPAN%3e%3cSPAN style%3d%22FONT-SIZE%3a 16px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23e53333%22%3e%3cSTRONG%3e KHAI NVIT %3c%2fSTRONG%3e%3c%2fSPAN%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%22%3e%2c can co van de gi can tu van!%3c%2fSPAN%3e%3c%2fSPAN%3e%3cSPAN style%3d%22FONT-SIZE%3a 12pt%3b FONT-FAMILY%3a %u5b8b%u4f53%3b mso-spacerun%3a 'yes'%3b mso-font-kerning%3a 1.0000pt%3b mso-ascii-font-family%3a 'Times New Roman'%3b mso-hansi-font-family%3a 'Times New Roman'%22%3e%3c%2fSPAN%3e%3c%2fP%3e%3cP class%3dMsoNormal style%3d%22TEXT-ALIGN%3a left%22%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23337fe5%22%3e%3c%2fSPAN%3e%26nbsp%3b%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23337fe5%22%3e%3c%2fP%3e%3cP class%3dMsoNormal style%3d%22TEXT-ALIGN%3a left%22%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23337fe5%22%3e%5b%3c%2fSPAN%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23337fe5%3b mso-spacerun%3a 'yes'%3b mso-fareast-font-family%3a %u5b8b%u4f53%3b mso-font-kerning%3a 1.0000pt%22%3e cuoc hoi theo hoan toan duoc bao mat !%3c%2fSPAN%3e%3cSPAN style%3d%22FONT-SIZE%3a 14px%3b FONT-FAMILY%3a Arial%3b COLOR%3a %23337fe5%22%3e%5d%3c%2fSPAN%3e%3c%2fP%3e%3c%2fSPAN%3e");
 var c15 = '<div class="zi"><a href="http://' + unescape("namkhoa168.com:8000")+'" target="_blank" alt="' + unescape("khainv") + '"><img src="' + K_sysimg + 'chatm2imgs/logo1.png" style="margin-right:4px;">' + unescape("namkhoa168.com:8000") + '</a></div>';
-var c50 = unescape("http%3a%2f%2fkhamnamkhoahanoi.vn%2f");
+var c50 = unescape("http%3a%2f%2fshopweb365.com%2f");
 var K_Tick=new Date().getTime().toString()+parseInt(Math.random()*499999999+Math.random()*400000000+100000000).toString();
 /*if (typeof K_Os === "undefined" || K_Os=='' || K_Os==null) {K_Os = K_GetInfoOs();}
 if (typeof K_Browser === "undefined" || K_Browser=={}) {K_Browser=K_GetInfoBrowser();}*/
@@ -35,12 +34,13 @@ function K_getParams(script_name){
     }
     return {};
 }
+//lay cai parameter uri
 var params=K_getParams('kchat.js?cid');
 if(params.cid.length <1 || K_domain==''){
     console.log('khong thoa main');
 }else{
     K_cid=params.cid;
-    var obj={'cid':K_cid,'domain':K_domain,'device':detectDevice(),'channel':K_channel};
+    var obj={'cid':K_cid,'domain':K_domain,'device':detectDevice(),'browser':K_GetInfoBrowser()};
     obj=JSON.stringify(obj);
     K_loadDoc(obj);
 }
@@ -60,12 +60,17 @@ function K_loadDoc(data) {
     }
     if(xhttp && xhttp!==false){
         xhttp.onreadystatechange = function() {
+            //alert('status:'+this.status+'|readyState:'+this.readyState);
             if (this.readyState == 4 && this.status == 200) {
                 var obj=this.responseText;
                 obj=JSON.parse(obj);
                 if(obj.res_code=='K_1'){
-                    K_Main(obj.device,obj.online);
+                    K_Main(obj);
+                }else{
+                    console.log(obj.err);
                 }
+            }else{
+                //alert(this.status+'|'+this.readyState);
             }
         }
         var data=window.btoa(unescape(encodeURIComponent(data)));
@@ -77,19 +82,28 @@ function K_loadDoc(data) {
         alert('khong tao duoc xhttp');
     }
 }
-function K_Main(device,onliner){
-
-    if(device==0){
-        onliner_start();
+function K_Main(obj){
+    onliner_start();
+    if(obj.device==2){
         $('#LRdiv2').append(html_boxchat1());
-        $('#LRdiv3').append(html_closeBoxchat());
-        if(onliner==1){
-
-            K_iframeBoxchat(html_iframeBoxchat());
+        if(obj.online==1){
+            $('#LRdiv3').append(html_closeBoxchat());
+            var obj2={con_prompt:obj.con_prompt,con_hi:obj.con_hi,con_boxchat_banner:obj.con_boxchat_banner,adm_name:obj.adm_name,token:obj.token,use_id:obj.use_id}
+            K_iframeBoxchat(html_iframeBoxchat(obj2));
+            if(obj.con_status=="0"){
+                K_closemini(1)
+            }else{
+                K_closemini()
+            }
+        }else{
+            console.log('khong co admin online');
+        }
+    }else{
+        if(obj.online==1){
+            $('#LRdiv3').append(html_ico_mes());
         }
     }
 }
-
 function K_setCookie(name,value,minutes){
     if (name.indexOf(K_cid)==-1){
         name='N'+K_cid+name;
@@ -176,7 +190,6 @@ function K_GetInfoBrowser(){
         fullVersion=fullVersion.substring(0,ix);
     if ((ix=fullVersion.indexOf(" "))!=-1)
         fullVersion=fullVersion.substring(0,ix);
-
     majorVersion = parseInt(''+fullVersion,10);
     if (isNaN(majorVersion)) {
         fullVersion  = ''+parseFloat(navigator.appVersion);
@@ -200,7 +213,7 @@ function detectDevice(){
     if (testExp.test(navigator.userAgent)){
         return 1;
     }else{
-        return 0;
+        return 2;
     }
 }
 /*K_GetObj K co dung*/
@@ -216,8 +229,20 @@ function K_GetObj(id, theDoc) {
 }
 /*onliner_start K co dung*/
 function onliner_start(){
-    document.write('<div id=\"LRdiv2\" style=\"display:block;\"></div>');
-    document.write('<div id=\"LRdiv3\" style=\"display:block;\"></div>');
+    /*document.write('<div id=\"LRdiv2\" style=\"display:block;\"></div>');
+    document.write('<div id=\"LRdiv3\" style=\"display:block;\"></div>');*/
+    if(document.body != null){
+        var div2 = document.createElement("div");
+        div2.id='LRdiv2';
+        div2.style='display:block';
+        document.body.appendChild(div2);
+        var div3 = document.createElement("div");
+        div3.id='LRdiv3';
+        div3.style='display:block';
+        document.body.appendChild(div3);
+    }else{
+        console.log('document.body null');
+    }
 }
 function K_Move_LR() {
     _K_mfloat_toright = !_K_mfloat_toright;
@@ -239,6 +264,7 @@ function K_closemini(opt){
          setTimeout(K_showmini,K_timeshowchatbox);
      }
         K_GetObj('LRfloater2').style.display='none';
+        K_GetObj('LRfloater3').style.display='block';
     }
 }
 function K_showmini(){
@@ -259,7 +285,7 @@ function html_boxchat1(){
         '<span style="CURSOR:pointer;float:right;overflow:hidden;width:20px;height:20px;clear:none;display:block;margin:6px 2px 0 0;" onclick="K_closemini();">' +
         '<img src="'+K_sysimg+'/da1.png" style="cursor:pointer;" border="0">' +
         '</span>' +
-        '<span style="CURSOR:pointer;float:right;overflow:hidden;width:20px;height:20px;clear:none;display:block;margin:6px 2px 0 0;" onclick="openZoosUrl("bchatwin");lr_hidemini();">' +
+        '<span style="CURSOR:pointer;float:right;overflow:hidden;width:20px;height:20px;clear:none;display:block;margin:6px 2px 0 0;" onclick="link_chat();lr_hidemini();">' +
         '<img src="'+K_sysimg+'/da.png" style="cursor:pointer;" border="0">' +
         '</span>' +
         '<span style="CURSOR:pointer;float:right;overflow:hidden;width:20px;height:20px;clear:none;display:block;margin:6px 2px 0 0;" onclick="K_Move_LR();">' +
@@ -271,16 +297,48 @@ function html_boxchat1(){
     '</div>';
     return str;
 }
+function link_chat(){
+    var link=K_sysDomain+'/kchat/chat?cid='+K_cid+'&domain='+K_domain;
+    //return window.location.href = link;
+    return window.open(link, '_blank');
+}
 function K_iframeBoxchat(str){
     var doc = document.getElementById('LR_miniframe').contentWindow.document;
     doc.open();
     doc.write(str);
     doc.close();
 }
-function html_iframeBoxchat(){
-    var _body='<body onkeydown="return f3(event)" onload="init();" scroll="no"><base target="_blank"><script language="javascript">/*document.write(bodyhtml);f20(c3, 0);LastFunction();*/</script><div id="toolsbar1" style="height: 210px; left: 11px; display: none; z-index: 999; bottom: 130px; width: 360px;"></div><div style="position: absolute; top: 0px; display: block;background-color:#5ba4ed;" id="header"><div class="img1" style="top:5px;left:10px;position: absolute;"><img id="topimg" border="0" src="'+K_sysimg+'/v/ico_admin.gif" style="height: 24px;width: 24px;	border-radius: 18px;display:;"></div><div id="headerBox" class="toptitle" style="left: 40px;right:97px;"><p id="prompttop" style="word-break:break-all;white-space:nowrap;text-overflow:ellipsis;display:inline-block;overflow:hidden;">&nbsp;Calling the operator,please wait...</p></div></div><div id="centerMsg" style="position: relative; margin-right: 0px; margin-left: 0px; height: 100%;"><div id="chatOutput" style="bottom: 129px;top: 36px;position: absolute;"><div id="pmtdiv" style="display:none;"><img src="'+K_sysimg+'/images/a1.gif" vspace="3" align="left" style="margin-top:4px;">' +
-        '<div id="pmtdiv1"></div></div><div style="overflow: auto; position: relative; height: 427px;" class="border1Content" id="chatContent"><div id="msgArea"><div id="welcom1"><img style="MAX-WIDTH: 100%; TEXT-ALIGN: center" src="http://phongkhamgiaiphong.com/linechat/linechat_banner_goc.jpg"><div style="COLOR: green; MARGIN-TOP: 5px"><font size="4" face="Times New Roman"></font></div>' +
-        '<p><span style="FONT-SIZE: 14px;"><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial"> chao ban day la của </span><span style="FONT-SIZE: 16px; FONT-FAMILY: Arial; COLOR: #e53333"><strong> KHAI NVIT </strong></span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">, can co van de gi can tu van!</span></span><span style="FONT-SIZE: 12pt;"></span></p><p class="MsoNormal" style="TEXT-ALIGN: left"><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5"></span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5"></span></p><p class="MsoNormal" style="TEXT-ALIGN: left"><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5">[</span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5;"> cuoc hoi theo hoan toan duoc bao mat !</span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5">]</span></p></div></div><div class="kongge_msg"></div></div></div>' +
+function html_iframeBoxchat(obj){
+    var str_adm_name='';
+    if(obj.adm_name!='' && obj.adm_name !== undefined){
+        str_adm_name=obj.adm_name;
+    }
+    var arr=obj.con_hi.split("|");
+    var text0='',text1='';
+    if(typeof arr[0] !== undefined){text0=arr[0];}
+    if(typeof arr[1] !== undefined){text1=arr[1];}
+    var str_loichao='<span style="font-size: 14px;"><span style="font-size: 14px; font-family: Arial">'+text0+'</span><span style="FONT-SIZE: 16px; FONT-FAMILY: Arial; COLOR: #e53333"><strong> '+str_adm_name+' </strong></span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial">'+text1+'</span></span><span style="FONT-SIZE: 12pt;"></span></p><p class="MsoNormal" style="TEXT-ALIGN: left"><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5"></span><span style="FONT-SIZE: 14px; FONT-FAMILY: Arial; COLOR: #337fe5"></span></p><p class="MsoNormal" style="TEXT-ALIGN: left">' +
+        '<span style="font-size: 14px; font-family: Arial; color: #337fe5">[</span><span style="font-size: 14px; font-family: Arial; COLOR: #337fe5;"> cuoc hoi thoai hoan toan duoc bao mat !</span><span style="font-size: 14px; font-family: Arial; color: #337fe5">]</span>';
+    var str_nhacnho='';
+    if(obj.con_prompt!='' && obj.con_prompt!== undefined){
+        str_nhacnho='<p id="prompttop" style="word-break:break-all;white-space:nowrap;text-overflow:ellipsis;display:inline-block;overflow:hidden;">'+obj.con_boxchat_banner+'</p>';
+    }
+    var str_banner='';
+    if(obj.con_boxchat_banner!='' && obj.con_boxchat_banner!== undefined) {
+        str_banner = '<img style="max-width: 100%; text-align: center" src="' + obj.con_boxchat_banner + '">';
+    }
+    var str_token='';
+    if(obj.token!='' && obj.token!== undefined) {
+        str_token = '<div id="kchat_token" data-token="'+obj.token+'"></div>';
+    }
+    if(obj.use_id!='' && obj.use_id!== undefined) {
+        str_token += '<div id="kchat_useid" data-useid="'+obj.use_id+'"></div>';
+    }
+    var _body='<body onkeydown="return f3(event)" onload="init();" scroll="no"><base target="_blank">'+str_token+'<script language="javascript">/*document.write(bodyhtml);f20(c3, 0);LastFunction();*/</script><div id="toolsbar1" style="height: 210px; left: 11px; display: none; z-index: 999; bottom: 130px; width: 360px;"></div><div style="position: absolute; top: 0px; display: block;background-color:#5ba4ed;" id="header"><div class="img1" style="top:5px;left:10px;position: absolute;"><img id="topimg" border="0" src="'+K_sysimg+'/v/ico_admin.gif" style="height: 24px;width: 24px;	border-radius: 18px;display:;"></div><div id="headerBox" class="toptitle" style="left: 40px;right:97px;">' + str_nhacnho +
+        '</div></div><div id="centerMsg" style="position: relative; margin-right: 0px; margin-left: 0px; height: 100%;"><div id="chatOutput" style="bottom: 129px;top: 36px;position: absolute;"><div id="pmtdiv" style="display:none;"><img src="'+K_sysimg+'/images/a1.gif" vspace="3" align="left" style="margin-top:4px;">' +
+        '<div id="pmtdiv1"></div></div><div style="overflow: auto; position: relative; height: 427px;" class="border1Content" id="chatContent"><div id="msgArea"><div id="welcom1">' + str_banner +
+        '<div style="COLOR: green; MARGIN-TOP: 5px"><font size="4" face="Times New Roman"></font></div>' +
+        '<p>'+str_loichao+'</p></div></div><div class="kongge_msg"></div></div></div>' +
         '<div id="userOptiv"><div class="border1Content"><div style="background-color:#f1f1f1;"></div><div style="background-color:#f1f1f1;"><div id="toolsbar"><div class="telephone" id="telephone" style="display:none;border-radius: 14px;height: 22px; right: 5px;top: 3px;background-color: #5ba4ed;border: 1px solid #5ba4ed;"><input type="text" id="tel" class="bd" value="Please enter your mobile phone number" defaultval="Please enter your mobile phone number" onfocus="inputfocus(this,1);showContent(5);" onblur="inputblur(this,1);hiddenContent();" style="border-radius: 14px 0 0 14px;height: 22px;line-height: 22px;"><input type="button" id="telbtn" class="btn" style="border-radius: 0 14px 14px 0;height: 22px;background: #5ba4ed none repeat scroll 0 0;" value="mien phi cuoc goi" onclick="LY_check1($('+"'tel'"+'))" onmouseover="filter0(this);" onmouseout="filter1(this);"></div><div unselectable="on" class="panelContain"><div unselectable="on" style="display:block" class="toolbutton0" title="Face"><div class="toolbutton" style="background-position: 0px -50px;" onmouseover="showC1(0, this)" onmouseout="hiddenC1(0, this);" onclick="showContent(1)" title="Face"></div></div><div unselectable="on" id="tbut2" style="display:none" class="toolbutton0" title="quet ma 2 chieu"><div class="toolbutton" style="background-position:-700px -50px" onmouseover="showC1(-700, this)" onmouseout="hiddenC1(-700, this)" onclick="showContent(4)" title="quet ma 2 chieu"></div></div><div unselectable="on" id="tbut3" style="display:none" class="toolbutton0" title="tro chuyen qq"><div class="toolbutton" style="background-position:-650px -50px" onmouseover="showC1(-650, this)" onmouseout="hiddenC1(-650, this)" title="tro chuyen qq"><a href="tencent://message/?uin=&amp;Site=&amp;Menu=yes" style="width: 26px; height: 24px;display:block;" id="tbut3h"></a></div></div>' +
         '<div unselectable="on" style="display:block" class="toolbutton0" title="Send Image"><div class="toolbutton" style="background-position: -100px -50px;" onmouseover="showC1(-100, this)" onmouseout="hiddenC1(-100, this);" onclick="showContent(2)" title="Send Image"></div></div><div unselectable="on" style="display:block" class="toolbutton0" title="Send File"><div class="toolbutton" style="background-position: -250px -50px;" onmouseover="showC1(-250, this)" onmouseout="hiddenC1(-250, this);" onclick="showContent(3)" title="Send File"></div></div><div unselectable="on" style="display:none" class="toolbutton0" title=" Screen capture"><div class="toolbutton" style="background-position:-300px -50px" onmouseover="showC1(-300, this)" onmouseout="hiddenC1(-300, this);" onclick="Capture();" title=" Screen capture"></div></div><div unselectable="on" style="display:none" class="toolbutton0" title="mien phi cuoc goi"><div class="toolbutton" style="background-position:-450px -50px" onmouseover="showC1(-450, this)" onmouseout="hiddenC1(-450, this)" title="mien phi cuoc goi"><a href="" style="width: 26px; height: 24px;display:block;"></a></div></div><div unselectable="on" style="display:block" class="toolbutton0" title="Submit your comments for this chat"><div class="toolbutton" style="background-position: -50px -50px;" onmouseover="showC1(-50, this)" onmouseout="hiddenC1(-50, this)" onclick="pingjia();" title="Submit your comments for this chat"></div></div><div unselectable="on" style="display:block" class="toolbutton0" title="Save chat"><div class="toolbutton" style="background-position: -150px -50px;" onmouseover="showC1(-150, this)" onmouseout="hiddenC1(-150, this);" onclick="savechat()" title="Save chat"></div></div></div></div></div>' +
         '<div id="sendMsgDiv"><div class="editor_border"><div id="lreditor"><iframe id="FreeTextBox1_editor" name="FreeTextBox1_editor" style="BORDER-STYLE: none;" frameborder="0" hspace="0" height="61" width="100%" src="about:blank"></iframe></div></div><div id="promptbar"><div style="overflow:hidden;height:22px;line-height:20px;width:100%;margin-top:13px;"><ul id="promptbottom"><div style="display: block; width:270px;" id="swtlogo"><div class="zi"><a href="http://namkhoa168.com:8000" target="_blank" alt="khainv"><img src="'+K_sysimg+'/chatm2imgs/logo1.png" style="margin-right:4px;">namkhoa168.com:8000</a></div></div></ul></div></div>' +
@@ -290,7 +348,7 @@ function html_iframeBoxchat(){
         '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
         '<script language="javascript">' +
         '</script>' +
-        '<script type="text/javascript" src="http://localhost:8000/kchat/../../socket.io/socket.io.js"></script>' +
+        '<script type="text/javascript" src="'+K_sysurl+'/../../socket.io/socket.io.js"></script>' +
         '<link href="'+K_sysurl+'/css/lrchatBW33.css" rel="stylesheet" type="text/css">' +
         '<script type="text/javascript" src="'+K_sysurl+'/js/Chat_en.js"></script>' +
         '<script type="text/javascript" src="'+K_sysurl+'/js/K_funs.js"></script>' +
@@ -301,6 +359,12 @@ function html_iframeBoxchat(){
 }
 function html_closeBoxchat(){
     var str='<link href="'+K_sysurl+'/css/JS5.css" rel="stylesheet" type="text/css"><div id="LRdiv3" style="display: block;"><div id="LRfloater3" style="z-index: 2147483647; right: 0px; bottom: 0px; position: fixed !important;display: '+(!K_Fshowchatbox?'block':'none')+'"><div id="LRMINIBar" class="LR_Mini_ICON" style="display: block; right: 15px; bottom: 30px;" onclick="K_showmini();"><a class="LR-BTN" style="background-color: #5ba4ed;"><span class="LR-ICON LR-ICON-CHAT1" id="LR-BTN-ICON"></span><span id="LR-CIRCLE" style="display:none;background-color: #5ba4ed;"></span> </a><div id="LR-BUBBLE" style="display:none;width:400px;right: 0;margin-right:34px;cursor:pointer;bottom: 30px;"><span class="LR-ICON" id="LR-BUBBLE-CLOSE" onclick="return closebarhtml(event);"></span><div id="LR-BUBBLE-INSIDE"><div id="LR-BUBBLE-title"><img id="LR-BUBBLE-AVATAR" src=""><span id="LR-BUBBLE-NAME"></span></div><div id="LR-BUBBLE-MSG"></div></div></div></div></div></div>';
+    return str;
+}
+function html_ico_mes() {
+    var link=K_sysDomain+'/kchat/chat?cid='+K_cid+'&domain='+K_domain;
+    var str='<link href="'+K_sysurl+'/css/JS5.css" rel="stylesheet" type="text/css">';
+    str+='<div id="LRfloater3" style="z-index: 2147483647; right: 0px; bottom: 0px; position: fixed !important;"><div id="LRMINIBar" class="LR_Mini_ICON" style="display: block; right: 15px; bottom: 30px;"><a href="'+link+'" class="LR-BTN" style="background-color: #5ba4ed;"><span class="LR-ICON LR-ICON-CHAT1" id="LR-BTN-ICON"></span><span id="LR-CIRCLE" style="display:none;background-color: #5ba4ed;"></span> </a><div id="LR-BUBBLE" style="display:none;width:400px;right: 0;margin-right:34px;cursor:pointer;bottom: 30px;"><span class="LR-ICON" id="LR-BUBBLE-CLOSE" onclick="return closebarhtml(event);"></span><div id="LR-BUBBLE-INSIDE"><div id="LR-BUBBLE-title"><img id="LR-BUBBLE-AVATAR" src=""><span id="LR-BUBBLE-NAME"></span></div><div id="LR-BUBBLE-MSG"></div></div></div></div></div>';
     return str;
 }
 

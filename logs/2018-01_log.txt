@@ -1,0 +1,6 @@
+
+2018-01-31 8:23:9:733 | index:InsertUseToRoom|err:CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "k_rooms"
+2018-01-31 8:23:10:687 | index:InsertUseToRoom|err:CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "k_rooms"
+2018-01-31 8:23:12:104 | index:InsertUseToRoom|err:CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "k_rooms"
+2018-01-31 8:23:12:575 | index:InsertUseToRoom|err:CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "k_rooms"
+2018-01-31 8:23:13:40 | index:InsertUseToRoom|err:CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "k_rooms"

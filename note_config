@@ -1,2 +1,7 @@
 C:\Program Files\MongoDB\Server\3.4\bin
 mongod.exe --config F:\MongoStore\config.txt
+---------
+netstat -antp | grep 4000
+kill -9 12082
+==========server==========
+/home/khainv

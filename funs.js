@@ -200,6 +200,7 @@ module.exports = function() {
             ''
         ]
         var phuonganh=[
+            '0983456186',
             'phamphuonganh',
             'vuhavi',
             'vuhavi123',
@@ -236,7 +237,17 @@ module.exports = function() {
             'xuanduc123',
             'duc1990@',
             'duc301290',
-            'xuanduc@321'
+            'xuanduc@321',
+            '--------',
+            'tplinkF1@gmail.co',
+            'tplinkF1@90',
+            'tenda@123',
+            'X.duc90@gmail.com',
+        ]
+        var chung=[
+            '841237541664',
+            'chunghoa1',
+            'zalo-0972693114-chunghoa0511'
         ]
     }
     this.unicode = function(str) {
@@ -269,7 +280,18 @@ module.exports = function() {
         //slug = slug.replace(/\@\-|\-\@|\@/gi, '');
         return slug;
     };
+    this.ConvertObjToStr=function(obj){
+        if(typeof str=='object'){
+            var str=JSON.stringify(str);
+        }else{
+            var str=obj;
+        }
+        return str;
+    }
     this.echo_log=function(str){
+        if(typeof str=='object'){
+            str=JSON.stringify(str);
+        }
         var strtime=this.get_time();
         str=strtime+' | '+str;
         console.log(str);
@@ -299,9 +321,18 @@ module.exports = function() {
     }
     this.write_log=function(str){
         var fs=require('fs');
-        str=this.get_time()+' | '+str;
+        if(typeof str=='object'){
+            str=JSON.stringify(str);
+        }
+        str=this.get_time()+' | '+str+ '\r\n';
         var file_name='./logs/'+this.get_time(2)+'_log.txt';
-        fs.writeFile(file_name,str);
+        if (fs.existsSync(file_name)) {
+            fs.appendFile(file_name, str, function (err) {
+                if (err) return console.log(err);
+            });
+        }else{
+            fs.writeFileSync(file_name,str,);
+        }
     }
     this.path_upload_today=function(domain){
         var d = new Date();
@@ -327,7 +358,6 @@ module.exports = function() {
             var path_y=__dirname+path+y;
             var path_m=path_y+'/'+m;
             var path_rs='/uploads/'+y+'/'+m;
-
             if (!fs.existsSync(path_m)){
                 if(!fs.existsSync(path_y)){
                     fs.mkdirSync(path_y);
@@ -358,8 +388,12 @@ module.exports = function() {
         var type=["jpg", "jpeg","gif","png"];
         return type;
     }
-	this.getExt=function(file_name){
-        var arr_str=file_name.split('.');
+    this.allow_zise_img=()=>{
+        return 1024*10;
+    };
+    this.getExt=function(file_name,symbol){
+        if(symbol){}else{symbol='.'}
+        var arr_str=file_name.split(symbol);
         var ext=arr_str.pop();
         return ext.toLowerCase();
 	}
@@ -462,5 +496,17 @@ module.exports = function() {
         }else{
             return fix+'_'+name;
         }
+    }
+    this.GetIp=function(req){
+        var ip = req.headers['x-forwarded-for'] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            req.connection.socket.remoteAddress;
+        ip = ip.split(',')[0];
+        ip = ip.split(':').slice(-1);
+        return ip[0];
+    }
+    this.Base64Encode=function (str) {
+        return new Buffer(str).toString('base64');
     }
 }

@@ -1,3 +1,4 @@
+var K_sysDomain='http://localhost:4000';
 if (/Chrome|Firefox|rv:11\.0/.test(navigator.userAgent)) c13 = c19[18];
 /*khainv addhttp add domain*/
 function addhttp(a) {
@@ -16,7 +17,6 @@ if (navigator.appVersion.indexOf("MSIE") == -1) {
 var K_lng='en';
 var K_channel='1';
 var K_sid='';
-var K_sysDomain='http://localhost:8000';
 const socket = io(K_sysDomain);
 var K_sysurl = K_sysDomain+'/kchat';
 var K_sysimg=K_sysurl+'/imgs'
@@ -31,6 +31,8 @@ var c93 = 0;
 var c44 = 0;
 var K_chated=0;
 var K_TimeNowStr=GetTimeNowStr();
+var K_token='';
+var K_use_id='';
 /*biet da dung*/
 var isFocus = false;
 var shortcut = "Enter";
@@ -72,8 +74,12 @@ if (typeof  GetCookie('K_cookieinfo')=== "undefined" || GetCookie('K_cookieinfo'
 if (typeof  GetCookie('K_room')=== "undefined" || GetCookie('K_room')=='' || GetCookie('K_room')==null ) {
     SetCookie('K_room',K_TimeNowStr+'_'+K_cid,K_cookieexpires);
 }
+if (typeof  GetCookie('K_room_type')=== "undefined" || GetCookie('K_room_type')=='' || GetCookie('K_room_type')==null ) {
+    SetCookie('K_room_type','0',K_cookieexpires);
+}
 /*start online*/
 K_room=GetCookie('K_room');
+K_room_type=GetCookie('K_room_type');
 var data={};
 data.cid=K_cid;
 data.sid=K_sid;
@@ -81,7 +87,7 @@ data.domain=K_domain;
 data.device=K_device;
 data.channel=K_channel;
 data.group=GetCookie('K_cookieinfo');
-data.room=K_room;
+data.browser=K_Browser;
 socket.emit('ECliOnline',data);
 //show input nhap sdt
 function showtel(a){
@@ -89,7 +95,7 @@ function showtel(a){
     if(a){
         obj.display='none';return;
     }
-    if (c75 && Telurl=='') obj.display = "block";
+    /*if (c75 && Telurl=='') obj.display = "block";*/
 }
 var rgstarted=0;
 //f8('start')
@@ -111,23 +117,6 @@ function LastFunction() {
         return;
     }
     showtel();
-    if (c36) {
-        if(v10){
-            mes_append(c10, 3, c85 + "&nbsp;" + GetNowTime(), true);
-            f21(c6[0]);
-            return;
-        }
-        if(LR_msg!=''){
-            mes_append(LR_msg, 2, "", true);
-        }
-        RGStart();
-    } else {
-        f21(c19[22]);
-        mes_append(c5+'<br>'+c19[9]+'<p style="margin-top:5px;">'+offbtn()+'</p>', 1, "", true);
-        if(c11==1){
-            robot();
-        }
-    }
 }
 function LY_end(a,b){
     if(a==0)
@@ -197,10 +186,10 @@ function getAttributeValue(o, a) {
     var b = o.attributes;
     for (var i = 0; i < b.length; i++) {
         if (a.toLowerCase() == b[i].name.toLowerCase()) {
-            return b[i].value
+            return b[i].value;
         }
     }
-    return null
+    return null;
 }
 var if_list = new Array();
 /*showContent K_ co dung*/
@@ -311,9 +300,11 @@ function showContent(i) {
         }
         tar.appendChild(if_list[i]);
         if(i==2){
-            var _action='' +K_sysurl + '/clientupimg';
+            /*var _action='' +K_sysurl + '/clientupimg';*/
+            var _action='' +K_sysurl + '/demoupfile';
         }else{
-            var _action='' +K_sysurl + '/clientupfile';
+            /*var _action='' +K_sysurl + '/clientupfile';*/
+            var _action='' +K_sysurl + '/demoupfile';
         }
 
         if_list[i].innerHTML = '<iframe id="uploadFrame" name="uploadFrame" style="BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none;  BORDER-BOTTOM-STYLE: none; HEIGHT: 100%;width:100%" scrolling="no" frameborder="0" hspace="0" '+if_src()+'></iframe>';
@@ -523,7 +514,7 @@ function mes_append(html, type11, oname11, add) {
         newmsg(html);
     }
     //rewrite html before show
-    html = html_mes_opt(html, type11, oname11);
+    html = html_mes_opt(html.mes, type11, oname11);
     if (!isFocus) {
         window.focus();
     }
@@ -1178,7 +1169,8 @@ function User_Send(e) {
         presendtext += "," + encodeURIComponent(temphtml);
     }
     if (MaxID != 0){
-        mes_append(temphtml, 2, "", true);
+        var obj={mes:temphtml}
+        mes_append(obj, 2, "", true);
     }
     if (c93 == -1){
         autoanswer3_time = new Date().getTime();
@@ -1440,23 +1432,19 @@ function hideme() {
     window.parent.postMessage(cmd, '*');
 }
 /*K co dung*/
-function newmsg(mes) {
-    var data={};
-    data.mes=mes;
-    data.id=socket.id;
-    data.ip='';
-    data.os=GetInfoOs();
-    data.browser=K_Browser.name+'|'+K_Browser.version;
-    data.channel=K_channel;
-    data.icon=K_ico_user;
-    data.domain=K_domain;
-    data.cid=K_cid;
-    data.room=K_room;
-    console.log('Kchated:'+K_chated);
+function newmsg(data) {
+    var dat={};
+    dat.use_id=K_use_id;
+    dat.mes=data.mes;
+    dat.icon=K_ico_user;
+    dat.cid=K_cid;
+    dat.token=K_token;
+    dat.id=socket.id;
+    dat.roo_type=K_room_type;
     if(K_chated==0){
-        socket.emit('ECliSendToAll',data);
+        socket.emit('ECliSendToAll',dat);
     }else{
-        socket.emit('ECliSendToRoom',data);
+        socket.emit('ECliSendToRoom',dat);
     }
 }
 /*SOCKET*/
@@ -1470,6 +1458,12 @@ socket.on('up_img_failed',function(){
 socket.on('ESerSendMesToRoom',function(data){
     K_chated=1;
     mes_append_adm(data.mes,3,'Admin');
+    play();
+})
+socket.on('ESerResCliOnline',function (data) {
+    K_use_id=data.user_id;
+    K_token=data.token;
+    play();
 })
 /*END SOCKET*/
 var timerID_title; var step_title = 0; function flash_title() { if(isFocus){flash_title1();return;}clearTimeout(timerID_title); step_title++; switch (step_title) { case 4: document.title = title1; step_title = 0; break; case 1: document.title = '*' + title1; break; case 2: document.title = '**' + title1; break; case 3: document.title = '***' + title1; break; } timerID_title = setTimeout('flash_title()', 200); } function flash_title1() {if(timerID_title!=null){clearTimeout(timerID_title); timerID_title=null;document.title = title0;} }

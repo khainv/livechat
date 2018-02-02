@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+    <style type="text/css">body {background-color: #fff;border: none;margin: 0px;padding: 0px;}</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        function SelSmile1(smilesrc){
+            /*parent.postMessage({action:'smile1',src:smilesrc}, "*");*/
+            window.parent.postMessage({action:'smile1',src:smilesrc}, "*");
+        }
+    </script>
+    <script id="clientEventHandlersJS" language="javascript">
+        var isMSIE= (navigator.appName == "Microsoft Internet Explorer");
+        var notop=(top.location != self.location);
+        var w=notop?54:64;
+        function OK_onclick(src) {
+            if(notop){
+                SelSmile1(src);
+                /*window.parent.SelSmile1(src);*/
+                /*parent.hiddenContent();*/
+            }else{
+                if(isMSIE){
+                    dialogArguments.SelSmile1(src);
+                }else{
+                    window.opener.SelSmile1(src);
+                }
+                window.close();
+            }
+        }
+        function WinOnload() {}
+    </script>
+</head>
+<body onLoad="WinOnload()" scroll="no">
+<table border="0" cellspacing="0" cellpadding="3" ID="Table1" style="margin-top: 7px; BORDER-COLLAPSE: collapse" align=center>
+    <script language=javascript>
+        var i=1;
+        document.write('<tr>');
+        for(i=1;i<7;i++){
+            document.write('<td><img src="imgs/headimg1/'+i+'.gif" width="'+w+'" border="0" onclick="OK_onclick(this.src);" alt="" style="CURSOR: pointer"></td>');
+        }
+        document.write('</tr>');
+        document.write('<tr>');
+        for(i=7;i<13;i++){
+            document.write('<td><img src="imgs/headimg1/'+i+'.gif" width="'+w+'" border="0" onclick="OK_onclick(this.src);" alt="" style="CURSOR: pointer"></td>');
+        }
+        document.write('</tr>');
+        document.write('<tr>');
+        for(i=13;i<18;i++){
+            document.write('<td><img src="imgs/headimg1/'+i+'.gif" width="'+w+'" border="0" onclick="OK_onclick(this.src);" alt="" style="CURSOR: pointer"></td>');
+        }
+        document.write('</tr>');
+    </script>
+</table>
+</body>
+</html>

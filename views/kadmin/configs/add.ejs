@@ -1,0 +1,87 @@
+<%- include('../layout/header'); %>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">Home</a>
+            </li>
+            <li>
+                <a href="#">Form Elements</a>
+            </li>
+            <li class="active">Form Layouts</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>
+                Forms
+                <small>
+                    <i class="fa fa-angle-right"></i>
+                    Layouts
+                </small>
+            </h1>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+    <!-- Page Body -->
+    <div class="page-body" id="PageBody">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <h5 class="row-title before-pink"><i class="fa fa-expand pink"></i>Cài Đặt</h5>
+                    <div class="widget">
+                        <div class="widget-header bordered-top bordered-palegreen">
+                            <span class="widget-caption">Nội dung Cài đặt</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="collapse in">
+                                <form role="form" method="post" enctype="application/x-www-form-urlencoded">
+                                    <input type="hidden" class="form-control" name="con_cid" value="">
+                                    <div class="form-group">
+                                        <label >lời nhắc</label>
+                                        <input type="text" class="form-control" name="con_prompt" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >lời chào</label>
+                                        <input type="text" class="form-control" name="con_hi" value="" placeholder="Default Input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Box chat banner</label>
+                                        <input type="text" class="form-control" name="con_boxchat_banner" value="">
+                                        <img src="" style="width: 200px;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input class="checkbox-slider" name="con_status" type="checkbox" checked="">
+                                            <span class="text">Ẩn/Hiện</span>
+                                        </label>
+                                    </div>
+                                    <input type="submit" value="submit" name="submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<%- include('../layout/footer'); %>

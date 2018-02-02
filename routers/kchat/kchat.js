@@ -6,21 +6,24 @@ var mongoose=require('mongoose');
 var session = require('express-session');
 var socket_io=require("socket.io");
 var funs=require("../../funs.js");
-funs =new funs;
+var funs =new funs;
 var define=require("../../define.js");
 define =new define;
 require("../../models/k_messages");
 const model_messages= mongoose.model("k_messages");
-
+require("../../models/k_customers");
+const model_customers= mongoose.model("k_customers");
+require("../../models/k_onlines");
+const model_onlines= mongoose.model("k_onlines");
+require("../../models/k_users");
+const model_users= mongoose.model("k_users");
+require("../../models/k_configs");
+const model_configs= mongoose.model("k_configs");
+require("../../models/k_rooms");
+const model_rooms= mongoose.model("k_rooms");
 var timenow=new Date();
 var crypto=require("crypto");
-/*require("../../models/tbl_messages");*/
 app.use(bodyParser.json());
-/*var model_messages=mongoose.model('tbl_messages');*/
-function getCid(){
-    var Arr={"cid":'cid_123',domains:['benhtri168.com']};
-    return Arr;
-}
 const http=require("http");
 var server=http.Server(app);
 const io=socket_io(server);
@@ -53,44 +56,110 @@ function FileAllowType(req,file,cb) {
     if(allow_type_all.indexOf(ext) != -1){
         cb(null,true);
     }else{
-        funs.write_log('router/kchat | file khong dung dinh dang | ext:'+ext);
+        funs.write_log('kchat:FileAllowType | file khong dung dinh dang | ext:'+ext);
         return cb(new Error('file không đúng định dạng'));
     }
 }
 var upload  =multer({storage:storage,fileFilter:FileAllowTypeImg});
 var uploadfile=multer({storage:storage,fileFilter:FileAllowType});
-/*app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-});*/
-router.get('/onstart',function(req,res){
+router.get('/onstart',async function(req,res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     // Pass to next layer of middleware
     if(req.query.data){
         var str_obj=req.query.data;
         var str_obj=new Buffer(str_obj, 'base64').toString('ascii');
-        var obj=JSON.parse(str_obj);
-        if(obj.cid=='cid_123' && obj.domain=='phongkhamgiaiphong.com'){
-            if(obj.device=='1'){
-                var obj = {res_code:'K_1',device:1,online:1}
-                var str_obj=JSON.stringify(obj);
-                res.send(str_obj);
+        var objs=JSON.parse(str_obj);
+        let GetCustomerByCid=(_con)=>{
+            return new Promise((resolve,reject)=> {
+                model_customers.findOne(_con, function (err, data) {
+                    if(err){
+                        funs.write_log('kchat/onstart:GetCustomerByCid | '+err);
+                        return reject(new Error('co loi xay ra'))
+                    }
+                    resolve(data)
+                })
+            })
+        }
+        let CheckAdminOnlineByCid=(_con)=>{
+            return new Promise((resolve,reject)=>{
+                model_onlines.findOne(_con,function(err,data){
+                    if(err){
+                        funs.write_log('kchat/onstart:CheckAdminOnlineByCid | '+err);
+                        return reject(new Error('co loi xay ra'))
+                    }
+                    resolve(data)
+                })
+            })
+        }
+        let GetConfigsByCid=(_con)=>{
+            return new Promise((resolve,reject)=>{
+                model_configs.findOne(_con,function(err,data){
+                    if(err){
+                        funs.write_log('kchat/onstart:GetConfigsByCid | '+err);
+                        return reject(new Error('co loi xay ra'))
+                    }
+                    resolve(data);
+                })
+            });
+        };
+        //kiem tra xem co ton tai cid nay khong
+        var conditions={cus_cid:objs.cid}
+        var Cus=await GetCustomerByCid(conditions);
+        if(Cus != null){
+            //tao token
+            var ip = funs.GetIp(req);
+            var arr_domains=Cus.cus_domains.split('|');
+            //add user
+            data={};
+            data.use_cid=objs.cid;
+            //kiem tra xem co nam trong danh sach domain dang ky khong
+            if(arr_domains.indexOf(objs.domain) >-1){
+                //kiem tra xem co admin nao online khong
+                var conditions={on_cid:objs.cid,on_type:define.k_type_admin};
+                var AdminOnline=await CheckAdminOnlineByCid(conditions);
+                //get configs of customer
+                var conditions={con_cid:objs.cid};
+                var ConfigsOfCus= await GetConfigsByCid(conditions);
+                var data={};
+                if(ConfigsOfCus == null){
+                    var str_obj={res_code:'K_0','err':'cus have not configs'};
+                    res.send(str_obj);
+                }else{
+                    data.con_cid=ConfigsOfCus.con_cid;
+                    data.con_prompt=ConfigsOfCus.con_prompt;
+                    data.con_hi=ConfigsOfCus.con_hi;
+                    data.con_boxchat_banner=ConfigsOfCus.con_boxchat_banner;
+                    data.con_status=ConfigsOfCus.con_status;
+                }
+                if(AdminOnline !=null){
+                    data.adm_name=AdminOnline.on_name;
+                    if(objs.device==define.k_device_mobile){
+                        var obj = {res_code:'K_1',device:define.k_device_mobile,online:1}
+                    }else{
+                        var obj = {res_code:'K_1',device:define.k_device_pc,online:1}
+                    }
+                    var rs=Object.assign(data, obj);
+                    var str_obj=JSON.stringify(rs);
+                    res.send(str_obj);
+                }else{
+                    var str_obj={res_code:'K_0',online:0,err:'not admin online'}
+                    res.send(str_obj);
+                }
             }else{
-                var obj={res_code:'K_1',device:0,online:1}
-                var str_obj=JSON.stringify(obj);
+                var str_obj={res_code:'K_0','err':'not in list domains'};
                 res.send(str_obj);
             }
         }else{
-            var obj={res_code:'K_0'}
+            var str_obj={res_code:'K_0','err':'not exits customer'};
             res.send(str_obj);
         }
     }
     else{
-        var obj={res_code:'K_0'}
+        var str_obj={res_code:'K_0','err':'not data send to server'}
         res.send(str_obj);
     }
-})
+});
 router.post('/clientupimg',upload.single("File1"),function(req,res){
     if(res.status(204).end()==true){
         var a=req.body;
@@ -172,6 +241,141 @@ router.get('/', function (req, res) {
 });
 router.get('/test',function(req,res){
     console.log('ban dang o kchat/test');
+})
+router.get('/chat',async function (req,res) {
+    let GetCustomerByCid=(_con)=>{
+        return new Promise((resolve,reject)=> {
+            model_customers.findOne(_con, function (err, data) {
+                if(err){
+                    funs.write_log('kchat/chat:GetCustomerByCid | '+err);
+                    return reject(new Error('co loi xay ra'))
+                }
+                resolve(data)
+            })
+        })
+    }
+    let CheckAdminOnlineByCid=(_con)=>{
+        return new Promise((resolve,reject)=>{
+            model_onlines.findOne(_con,function(err,data){
+                if(err){
+                    funs.write_log('kchat/chat:CheckAdminOnlineByCid | '+err);
+                    return reject(new Error('co loi xay ra'))
+                }
+                resolve(data)
+            })
+        })
+    }
+    var cid=req.query.cid;
+    var domain=req.query.domain;
+    var conditions={cus_cid:cid}
+    var Cus=await GetCustomerByCid(conditions);
+    if(Cus != null){
+        var arr_domains=Cus.cus_domains.split('|');
+        //kiem tra xem co nam trong danh sach domain dang ky khong
+        if(arr_domains.indexOf(domain) >-1){
+            //kiem tra xem co admin nao online khong
+            var conditions={use_cid:cid,use_type:define.k_type_admin};
+            var Admin=await CheckAdminOnlineByCid(conditions);
+            if(Admin != null){
+                res.render('./kchat/kchat/chat.ejs');
+            }else{
+                res.send('khong co admin nao online');
+            }
+        }
+    }else{
+        res.send('thong tin khong dung');
+    }
+})
+var formidable = require('formidable');
+var fs = require('fs');
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+router.post('/demoupfile',urlencodedParser,async function (req,res) {
+    let RenameFile=(pathold,pathnew,new_img)=>{
+        return new Promise((resolve,reject)=>{
+            fs.rename(pathold, pathnew, function (err) {
+                if (err){
+                    console.log(err);
+                    var str='kchat/kchat.demoupfile:UploadFile|cid:'+cid+'|err:'+err;
+                    funs.write_log(str);
+                    return reject(err);
+                }else{
+                    resolve(new_img);
+                }
+            });
+        })
+    }
+    let UploadFile=(File1,PathOption)=>{
+        return new Promise((resolve,reject)=> {
+            var form = new formidable.IncomingForm();
+            form.uploadDir=PathOption.path_full;
+            form.keepExtensions=true;
+            form.maxFieldsSize=funs.allow_zise_img();
+            form.parse(req,(err,fields,files)=>{
+                if(err){
+                    console.log(err);
+                    var str='kchat/demoupfile:UploadFile|cid:'+cid+'|err:'+err;
+                    funs.write_log(str);
+                    return reject(new Error('co loi xay ra'))
+                }else{
+                    var oldpath = files.File1.path;
+                    var newpath = PathOption.path_full+'/'+funs.rewrite_filename(files.File1.name);
+                    var new_img = PathOption.path+'/'+funs.rewrite_filename(files.File1.name);
+                    resolve({oldpath:oldpath,newpath:newpath,new_img:new_img});
+                }
+            })
+        })
+    }
+    /*chay chinh*/
+    if(res.status(204).end()==true){
+        var filenote=req.body.filenote;
+        var cid=req.body.cid;
+        var domain=req.body.domain;
+        var socket_id=req.body.socketid;
+        var new_img='';
+        var abc=funs.path_upload_today(domain);
+        var new_img2=await UploadFile(req.body.File1,abc);
+        new_img=await RenameFile(new_img2.oldpath,new_img2.newpath,new_img2.new_img)
+        var documents={};
+        documents.mes_text=funs.escapeHtml(filenote);
+        documents.mes_file=new_img;
+        documents.created_at=timenow;
+        documents.updated_at=timenow;
+        model_messages.create(documents, function (err, small) {
+            if (err) {
+                console.log(err);
+                var str='kchat/kchat.demoupfile:insert to messages|cid:'+cid;
+                funs.write_log(str);
+                return handleError(err);
+            }
+        })
+        var ext=funs.getExt(new_img);
+        var allow_type_img=funs.allow_type_image();
+        if(allow_type_img.indexOf(ext) != -1){
+            new_img='<img src="'+new_img+'">';
+        }else{
+            new_img='<a href="'+new_img+'">'+new_img+'</a>';
+        }
+        req.app.io.emit('up_img_true',new_img);
+    }else{
+        req.app.io.emit('up_img_failed');
+    }
+})
+router.get('/getmesbyroomid',function (req,res) {
+    if(req.query.roo_id){
+        var roo_id=req.query.roo_id;
+        var roo_id=mongoose.Types.ObjectId(roo_id);
+        var con={roo_id:roo_id};
+        model_messages.find(con,function(err,data){
+            if(err){
+                res.send('co loi');
+                funs.write_log('kchat:getmesbyroomid | '+err)
+            }else{
+                res.send(data);
+            }
+        })
+    }else{
+        res.send('co loi 2')
+    }
 })
 module.exports = router;
 
